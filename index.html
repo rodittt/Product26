@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mordo - Plant Habit Tracker</title>
+    <meta name="description" content="Mordo: A peaceful habit tracker with plant growth elements.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <script defer src="components.js"></script>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <!-- Onboarding Screen -->
+    <div id="onboarding-screen" class="onboarding-screen">
+        <header class="onboarding-header">
+            <div class="logo">
+                <span class="dot"></span>
+                <span class="logo-text">mordo</span>
+            </div>
+            <div class="header-indicator-area">
+                <button class="header-prev-btn prev-btn hidden">← 이전</button>
+                <div class="step-indicator">
+                    <span class="step-dot active"></span>
+                    <span class="step-dot"></span>
+                    <span class="step-dot"></span>
+                </div>
+                <div class="header-placeholder"></div>
+            </div>
+        </header>
+
+        <main class="onboarding-content">
+            <!-- Step 1: Wake Time -->
+            <div class="onboarding-step" id="step-1">
+                <section class="card onboarding-card glass-card-light">
+                    <h2 class="onboarding-title">몇 시에 일어날까요?</h2>
+                    <p class="onboarding-desc">기상 후 30분 타이머가 자동으로 시작돼요</p>
+                    
+                    <div class="time-picker">
+                        <div class="time-display-large">
+                            <span id="display-hour">06</span>
+                            <span class="separator">:</span>
+                            <span id="display-minute">30</span>
+                        </div>
+                        <div class="ampm-toggle">
+                            <button class="pill-btn active" data-ampm="AM">AM</button>
+                            <button class="pill-btn" data-ampm="PM">PM</button>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-actions">
+                        <button class="cta-button gradient-bg next-btn">다음 →</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Step 2: Routines -->
+            <div class="onboarding-step hidden" id="step-2">
+                <section class="card onboarding-card glass-card-light">
+                    <h2 class="onboarding-title">아침 루틴을 설정해주세요</h2>
+                    <p class="onboarding-desc">기상 후 30분 타이머가 자동으로 시작돼요</p>
+                    
+                    <div class="routine-input-list" id="routine-inputs">
+                        <div class="routine-input-row">
+                            <span class="number">1</span>
+                            <input type="text" placeholder="예: 물 한 잔 마시기" class="routine-input">
+                        </div>
+                        <div class="routine-input-row">
+                            <span class="number">2</span>
+                            <input type="text" placeholder="예: 스트레칭 10분" class="routine-input">
+                        </div>
+                        <!-- Third one hidden initially -->
+                        <div class="routine-input-row hidden" id="routine-3-row">
+                            <span class="number">3</span>
+                            <input type="text" placeholder="예: 책 10페이지 읽기" class="routine-input">
+                        </div>
+                    </div>
+
+                    <button class="add-routine-btn" id="btn-add-routine">+ 루틴 추가</button>
+
+                    <div class="onboarding-actions">
+                        <button class="cta-button gradient-bg next-btn">다음 →</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Step 3: Alarm Sound -->
+            <div class="onboarding-step hidden" id="step-3">
+                <section class="card onboarding-card glass-card-light">
+                    <h2 class="onboarding-title">알람음을 선택해주세요</h2>
+                    <p class="onboarding-desc">기분 좋게 일어날 수 있는 소리를 선택해 보세요</p>
+                    
+                    <div class="sound-option-list">
+                        <div class="sound-option active" data-sound="Morning Calm">
+                            <div class="option-info">
+                                <span class="option-name">Morning Calm</span>
+                                <span class="option-desc">잔잔하게 시작</span>
+                            </div>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="sound-option" data-sound="Forest">
+                            <div class="option-info">
+                                <span class="option-name">Forest</span>
+                                <span class="option-desc">자연의 분위기</span>
+                            </div>
+                        </div>
+                        <div class="sound-option" data-sound="Bird">
+                            <div class="option-info">
+                                <span class="option-name">Bird</span>
+                                <span class="option-desc">새소리 알람</span>
+                            </div>
+                        </div>
+                        <div class="sound-option" data-sound="None">
+                            <div class="option-info">
+                                <span class="option-name">None</span>
+                                <span class="option-desc">무음</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-actions">
+                        <button class="cta-button gradient-bg" id="start-app-btn">시작하기</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Main App Screen -->
+    <div id="app-screen" class="hidden">
+        <div class="app-container">
+            <!-- Home Tab Screen -->
+            <div id="home-tab" class="app-tab-screen">
+                <header class="home-header">
+                    <div class="logo">
+                        <span class="dot"></span>
+                        <span class="logo-text">mordo</span>
+                    </div>
+                    <button class="settings-btn">⚙️</button>
+                </header>
+
+                <div class="top-cards">
+                    <section class="card plant-card glass-card-light">
+                        <div class="card-title">🌱 <span class="badge">새싹 · 2단계</span></div>
+                        <div class="card-stats">0/3 완료</div>
+                        <div class="progress-bar-small"><div class="fill" style="width: 0%;"></div></div>
+                    </section>
+                    <section class="card timer-card dark-card">
+                        <div class="label">남은 시간</div>
+                        <div class="timer-main"><div class="circular-progress"><span class="time">27:43</span></div></div>
+                        <div class="timer-footer">30분 완료 시 보너스 성장</div>
+                    </section>
+                </div>
+
+                <div class="success-banner">✨ 오늘 1개만 완료해도 성공으로 기록돼요</div>
+
+                <section class="routine-section">
+                    <div class="section-title-row">
+                        <h3>오늘의 루틴</h3>
+                        <button class="edit-btn">Edit</button>
+                    </div>
+                    <div class="routine-list" id="home-routine-list">
+                        <!-- Routines will be injected here -->
+                    </div>
+                    <button class="fab-button gradient-bg" id="fab-add">+</button>
+                </section>
+            </div>
+
+            <!-- Record Tab Screen -->
+            <div id="record-tab" class="app-tab-screen hidden">
+                <header class="record-header">
+                    <div class="title-area">
+                        <span class="dot"></span>
+                        <h2 class="title">기록</h2>
+                    </div>
+                </header>
+
+                <div class="record-summary">
+                    <section class="card summary-card glass-card-light">
+                        <span class="value">67%</span>
+                        <span class="label">이번 주 완료율</span>
+                    </section>
+                    <section class="card summary-card glass-card-light">
+                        <span class="value secondary">💧 물 마시기</span>
+                        <span class="label">최다 습관</span>
+                    </section>
+                </div>
+
+                <section class="photo-section">
+                    <h3>인증 사진</h3>
+                    <div class="photo-grid" id="record-photo-grid">
+                        <div class="photo-cell filled">🧘</div>
+                        <div class="photo-cell filled">💧</div>
+                        <div class="photo-cell filled">📖</div>
+                        <div class="photo-cell add-slot"></div>
+                        <div class="photo-cell add-slot"></div>
+                        <div class="photo-cell add-slot"></div>
+                    </div>
+                </section>
+
+                <section class="history-section">
+                    <div class="history-header">
+                        <h3>루틴 히스토리</h3>
+                        <a href="#" class="see-more">전체보기</a>
+                    </div>
+                    <div class="history-list">
+                        <div class="history-item glass-white">
+                            <span class="date">01.14</span>
+                            <div class="history-tags">
+                                <span class="history-chip">🧘 스트레칭</span>
+                                <span class="history-chip">💧 물 마시기</span>
+                            </div>
+                            <span class="completion">2/3</span>
+                        </div>
+                        <div class="history-item glass-white">
+                            <span class="date">01.13</span>
+                            <div class="history-tags">
+                                <span class="history-chip">🧘 스트레칭</span>
+                                <span class="history-chip inactive">💧 물 마시기</span>
+                            </div>
+                            <span class="completion">1/3</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Achievement Tab Screen -->
+            <div id="achievement-tab" class="app-tab-screen hidden">
+                <header class="achievement-header title-area">
+                    <span class="dot"></span>
+                    <h2 class="title">달성</h2>
+                </header>
+
+                <section class="card growth-card glass-card-light">
+                    <div class="growth-header">
+                        <span class="label">식물 성장</span>
+                        <span class="stage-now">새싹</span>
+                    </div>
+                    <div class="growth-steps">
+                        <div class="growth-step">
+                            <span class="icon">🌱</span>
+                            <span class="step-label">씨앗</span>
+                        </div>
+                        <div class="growth-step">
+                            <span class="icon">🌿</span>
+                            <span class="step-label">새싹</span>
+                        </div>
+                        <div class="growth-step active">
+                            <span class="badge">Lv.3</span>
+                            <span class="icon">🍃</span>
+                            <span class="step-label">잎</span>
+                        </div>
+                        <div class="growth-step">
+                            <span class="icon">🌳</span>
+                            <span class="step-label">나무</span>
+                        </div>
+                        <div class="growth-step locked">
+                            <span class="icon">🌲</span>
+                            <span class="step-label">고목</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar-small"><div class="fill" style="width: 40%;"></div></div>
+                    <p class="growth-desc">다음 단계까지 6번의 루틴 완료이 더 필요해요</p>
+                </section>
+
+                <section class="card calendar-card glass-card-light">
+                    <div class="calendar-header">
+                        <div class="calendar-nav">
+                            <button id="prev-month-btn" class="month-nav-btn">‹</button>
+                            <h3 class="month-title">2026 February</h3>
+                            <button id="next-month-btn" class="month-nav-btn">›</button>
+                        </div>
+                        <span class="streak-badge">12일 연속</span>
+                    </div>
+                    <div class="calendar-weekdays">
+                        <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+                    </div>
+                    <div class="calendar-grid">
+                        <!-- Calendar days will be generated by JS -->
+                    </div>
+                    <div class="calendar-legend">
+                        <span class="legend-label">완료율</span>
+                        <div class="legend-dots">
+                            <span class="dot level-0"></span>
+                            <span class="dot level-1"></span>
+                            <span class="dot level-2"></span>
+                            <span class="dot level-3"></span>
+                            <span class="dot level-4"></span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Alarm Tab Screen -->
+            <div id="alarm-tab" class="app-tab-screen hidden">
+                <header class="alarm-header title-area">
+                    <span class="dot"></span>
+                    <h2 class="title">알람 설정</h2>
+                </header>
+
+                <section class="card alarm-time-card dark-card">
+                    <div class="alarm-time-main">
+                        <span class="time">06:30</span>
+                        <span class="period">AM</span>
+                    </div>
+                    <div class="alarm-info-row">
+                        <span class="desc">기상 알람</span>
+                        <label class="switch">
+                            <input type="checkbox" checked id="main-alarm-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="repeat-area">
+                    <div class="repeat-day-list">
+                        <button class="repeat-day">월</button>
+                        <button class="repeat-day active">화</button>
+                        <button class="repeat-day active">수</button>
+                        <button class="repeat-day active">목</button>
+                        <button class="repeat-day active">금</button>
+                        <button class="repeat-day">토</button>
+                        <button class="repeat-day">일</button>
+                    </div>
+                </section>
+
+                <div class="settings-list">
+                    <div class="setting-item glass-white" id="open-repeat-sheet">
+                        <span class="label">알림 미루기</span>
+                        <label class="switch">
+                            <input type="checkbox" checked id="repeat-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item glass-white">
+                        <span class="label">알람음</span>
+                        <span class="value">Morning Calm ›</span>
+                    </div>
+                </div>
+
+                <!-- Bottom Sheet Overlay -->
+                <div id="sheet-overlay" class="overlay">
+                    <div class="bottom-sheet glass-card-light">
+                        <div class="sheet-handle"></div>
+                        <h3>상세 설정</h3>
+                        <div class="sheet-content">
+                            <div class="setting-row">
+                                <span>반복 알람</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked id="sheet-repeat-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="snooze-options">
+                                <button class="snooze-option active">5분 뒤 다시 알람</button>
+                                <button class="snooze-option">10분 뒤 다시 알람</button>
+                            </div>
+                            <button class="cta-button gradient-bg save-button" id="save-sheet">저장하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="bottom-tab glass">
+                <a href="#" class="tab-item active" data-tab="home"><span class="icon">🏠</span><span class="label">홈</span></a>
+                <a href="#" class="tab-item" data-tab="record"><span class="icon">📊</span><span class="label">기록</span></a>
+                <a href="#" class="tab-item" data-tab="achievement"><span class="icon">🏆</span><span class="label">달성</span></a>
+                <a href="#" class="tab-item" data-tab="alarm"><span class="icon">🔔</span><span class="label">알람</span></a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Add Routine Screen -->
+    <div id="add-routine-screen" class="onboarding-screen hidden">
+        <header class="camera-header">
+            <button class="back-button" id="add-routine-back-btn">‹</button>
+            <h2 class="current-routine-name">루틴 추가</h2>
+            <div class="header-placeholder"></div>
+        </header>
+        <main class="onboarding-content">
+            <div class="card onboarding-card glass-card-light">
+                <p class="onboarding-desc">추가할 루틴의 이름을 입력해주세요</p>
+                <div class="routine-input-list">
+                    <div class="routine-input-row">
+                        <input type="text" id="new-routine-input" placeholder="예: 물 한 잔 마시기" class="routine-input">
+                    </div>
+                </div>
+                <div class="onboarding-actions">
+                    <button class="cta-button gradient-bg" id="save-routine-btn">루틴 저장</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Routine Camera Screen -->
+    <div id="camera-screen" class="camera-screen hidden">
+        <header class="camera-header">
+            <button class="back-button" id="camera-back-btn">‹</button>
+            <h2 class="current-routine-name" id="selected-routine-title">루틴 인증</h2>
+            <div class="placeholder-box"></div>
+        </header>
+
+        <main class="camera-main">
+            <div class="camera-preview">
+                <div class="camera-guide">
+                    <div class="guide-corner tl"></div>
+                    <div class="guide-corner tr"></div>
+                    <div class="guide-corner bl"></div>
+                    <div class="guide-corner br"></div>
+                </div>
+                <div class="camera-timestamp" id="camera-time">2025.01.15 07:42 AM</div>
+                
+                <!-- Capturing Overlay -->
+                <div class="camera-overlay hidden" id="capture-overlay">
+                    <div class="success-message">
+                        <span class="icon">✨</span>
+                        <p>인증샷 촬영 완료!</p>
+                        <button class="cta-button gradient-bg camera-done-button" id="camera-complete-btn">인증 완료</button>
+                    </div>
+                </div>
+            </div>
+
+            <p class="camera-help-text">루틴 완료를 인증해주세요<br>인증샷을 남기면 기록에 저장돼요</p>
+
+            <div class="capture-area">
+                <div class="header-placeholder"></div>
+                <button class="capture-button" id="capture-btn">
+                    <div class="capture-button-inner"></div>
+                </button>
+                <div class="header-placeholder"></div>
+            </div>
+            <span class="capture-label">촬영하기</span>
+        </main>
+    </div>
+    <!-- History Screen -->
+    <div id="history-screen" class="onboarding-screen hidden">
+        <header class="camera-header">
+            <button class="back-button" id="history-back-btn">‹</button>
+            <h2 class="current-routine-name">히스토리</h2>
+            <div class="header-placeholder"></div>
+        </header>
+        <main class="onboarding-content history-full-content">
+            <div class="history-list full-list" id="full-history-list">
+                <!-- History items will be injected here -->
+            </div>
+        </main>
+    </div>
+</body>
+</html>
